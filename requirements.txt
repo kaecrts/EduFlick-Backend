@@ -6,3 +6,4 @@ bcrypt
 jwt
 aiomysql
 sqlmodel
+python-dotenv

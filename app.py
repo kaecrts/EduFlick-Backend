@@ -51,7 +51,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 
 @app.post("/")
-async def test():
+async def login():
     return {
         "status": "200",
         "message": "Login successful",
