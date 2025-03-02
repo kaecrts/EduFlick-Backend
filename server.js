@@ -8,7 +8,7 @@ const db = require('./config/db');
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' })); // Allows requests from any origin
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
