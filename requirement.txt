@@ -1,5 +1,0 @@
-djangorestframework 
-djangorestframework-simplejwt
-django
-gunicorn
-whitenoise
