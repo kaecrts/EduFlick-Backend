@@ -1,9 +1,0 @@
-fastapi
-sqlalchemy
-databases
-uvicorn
-bcrypt
-jwt
-aiomysql
-sqlmodel
-python-dotenv
