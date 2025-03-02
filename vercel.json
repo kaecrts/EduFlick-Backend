@@ -1,8 +1,0 @@
-{
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "myproject/asgi.py"
-      }
-    ]
-  }
