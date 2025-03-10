@@ -22,7 +22,8 @@ app.use(cors({
         }
     },
     methods: "GET, POST, PUT, DELETE, OPTIONS",
-    credentials: true // ✅ Allow credentials (cookies, tokens)
+    allowedHeaders: "X-Requested-With, Content-Type, Authorization",
+    credentials: true // ✅ Required for cookies/auth
 }));
 
 // ✅ Explicitly handle preflight OPTIONS requests
