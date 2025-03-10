@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 // app.use(cors({ origin: 'https://eduflick-client-one.vercel.app/' })); // Allows requests from any origin
 app.use(cors({
-    origin: "*", // Replace with your frontend URL
+    origin: "https://eduflick-client-one.vercel.app/", // Replace with your frontend URL
     methods: "GET, POST, PUT, DELETE",
     credentials: true
 }));
