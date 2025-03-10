@@ -35,6 +35,8 @@ app.options("*", (req, res) => {
     res.status(200).end(); // ✅ Ensure HTTP 200 OK
 });
 
+app.use(express.json());
+
 app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
