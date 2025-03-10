@@ -10,11 +10,18 @@ dotenv.config();
 
 const app = express();
 // app.use(cors({ origin: 'https://eduflick-client-one.vercel.app/' })); // Allows requests from any origin
+
+// ✅ Enable CORS for all origins
 app.use(cors({
-    origin: "https://eduflick-client-one.vercel.app/", // Replace with your frontend URL
-    methods: "GET, POST, PUT, DELETE",
-    credentials: true
+    origin: "*", // Allow all origins (for development)
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    allowedHeaders: "X-Requested-With, Content-Type, Authorization"
 }));
+
+// ✅ Handle preflight requests
+app.options("*", cors());
+app.use(express.json());
+
 app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
