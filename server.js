@@ -9,7 +9,12 @@ const db = require('./config/db');
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: 'https://eduflick-client-one.vercel.app/' })); // Allows requests from any origin
+// app.use(cors({ origin: 'https://eduflick-client-one.vercel.app/' })); // Allows requests from any origin
+app.use(cors({
+    origin: "https://eduflick-client-one.vercel.app/", // Replace with your frontend URL
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true
+}));
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
