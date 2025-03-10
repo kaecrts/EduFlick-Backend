@@ -17,7 +17,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-app.get("/api/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("CORS fixed on Vercel!");
 });
 app.use('/api/auth', authRoutes);
