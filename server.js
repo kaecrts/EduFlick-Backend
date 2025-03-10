@@ -25,6 +25,15 @@ app.use(cors({
     credentials: true // ✅ Allow credentials (cookies, tokens)
 }));
 
+// ✅ Explicitly handle preflight OPTIONS requests
+app.options("*", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "https://eduflick-client-one.vercel.app");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.status(200).end(); // ✅ Ensure HTTP 200 OK
+});
+
 app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
