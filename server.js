@@ -11,16 +11,19 @@ dotenv.config();
 const app = express();
 // app.use(cors({ origin: 'https://eduflick-client-one.vercel.app/' })); // Allows requests from any origin
 
-// ✅ Enable CORS for all origins
-app.use(cors({
-    origin: "*", // Allow all origins (for development)
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "X-Requested-With, Content-Type, Authorization"
-}));
+const allowedOrigins = ["https://eduflick-client-one.vercel.app"]; // ✅ Set your frontend URL
 
-// ✅ Handle preflight requests
-app.options("*", cors());
-app.use(express.json());
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    credentials: true // ✅ Allow credentials (cookies, tokens)
+}));
 
 app.use(bodyParser.json());
 
