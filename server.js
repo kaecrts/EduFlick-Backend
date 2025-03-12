@@ -19,25 +19,26 @@ const allowedOrigins = ["https://eduflick-client-one.vercel.app"]; // ✅ Set yo
 //   methods: "GET,POST,PUT,DELETE",
 //   credentials: true
 // }));
-app.use(cors());
+// ✅ Allow all origins and methods
+app.use(cors({
+origin: "*", // Change to frontend URL in production
+methods: "GET,POST,PUT,DELETE,OPTIONS",
+allowedHeaders: "Content-Type,Authorization",
+credentials: true
+}));
 
-// ✅ Explicitly handle preflight OPTIONS requests
-app.options("*", (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://eduflick-client-one.vercel.app");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.status(200).end(); // ✅ Ensure HTTP 200 OK
-});
+// ✅ Handle preflight requests for all routes
+app.options("*", cors());
 
 app.use(express.json());
 
 app.use(bodyParser.json());
 
+
 app.get("/", (req, res) => {
-    res.send("Hello from the backend!");
+    res.json({ message: "CORS is working!" });
 });
-  
+
 app.use('/api/auth', authRoutes);
 app.use('/api/cards', cardsRoutes);
 
