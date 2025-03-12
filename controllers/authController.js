@@ -24,7 +24,7 @@ exports.login = (req, res) => {
 
   const query = 'SELECT * FROM users WHERE email = ?';
   db.query(query, [email], (err, results) => {
-    if (err || results.length === 0) return res.status(200).json({ status: 401, message: 'Invalid credentials' });
+    if (err || results.length === 0) return res.status(200).json({ status: 401, message: 'Invalid credentials'+ err });
 
     const user = results[0];
     const isMatch = bcrypt.compareSync(password, user.password);
