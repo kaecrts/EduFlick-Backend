@@ -13,18 +13,13 @@ const app = express();
 
 const allowedOrigins = ["https://eduflick-client-one.vercel.app"]; // ✅ Set your frontend URL
 
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "X-Requested-With, Content-Type, Authorization",
-    credentials: true // ✅ Required for cookies/auth
-}));
+// Allow requests from your frontend
+// app.use(cors({
+//   origin: "https://eduflick-client-one.vercel.app", // Replace with your actual frontend URL
+//   methods: "GET,POST,PUT,DELETE",
+//   credentials: true
+// }));
+app.use(cors());
 
 // ✅ Explicitly handle preflight OPTIONS requests
 app.options("*", (req, res) => {
@@ -39,9 +34,10 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 
-app.get("/api", (req, res) => {
-    res.send("CORS fixed on Vercel!");
+app.get("/", (req, res) => {
+    res.send("Hello from the backend!");
 });
+  
 app.use('/api/auth', authRoutes);
 app.use('/api/cards', cardsRoutes);
 
