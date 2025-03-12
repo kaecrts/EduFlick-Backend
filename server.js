@@ -21,7 +21,7 @@ const allowedOrigins = ["https://eduflick-client-one.vercel.app"]; // ✅ Set yo
 // }));
 // ✅ Allow all origins and methods
 app.use(cors({
-origin: "*", // Change to frontend URL in production
+origin: ["*"], // Change to frontend URL in production
 methods: "GET,POST,PUT,DELETE,OPTIONS",
 allowedHeaders: "Content-Type,Authorization",
 credentials: true
