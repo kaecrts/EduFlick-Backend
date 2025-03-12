@@ -14,7 +14,7 @@ const app = express();
 app.use(cors({
     origin: "*", // Allows all origins
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: "Content-Type,Authorization,Cache-Control,Pragma,Expires",
     credentials: false // ❌ No authentication (cookies, JWT, sessions)
   }));
 
