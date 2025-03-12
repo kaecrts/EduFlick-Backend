@@ -10,12 +10,13 @@ dotenv.config();
 const app = express();
 
 // ✅ Allow CORS only from frontend in production
+// ✅ Allow ALL origins (No credentials required)
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000", // Set frontend URL
-  methods: "GET,POST,PUT,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type,Authorization",
-  credentials: true
-}));
+    origin: "*", // Allows all origins
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: false // ❌ No authentication (cookies, JWT, sessions)
+  }));
 
 app.use(express.json()); // ✅ Replaces body-parser.json()
 
