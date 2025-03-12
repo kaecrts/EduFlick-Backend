@@ -35,11 +35,11 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 
-app.get("/", (req, res) => {
+app.post("/api/auth/login", (req, res) => {
     res.json({ message: "CORS is working!" });
 });
 
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/cards', cardsRoutes);
 
 const PORT = process.env.PORT || 5000;
