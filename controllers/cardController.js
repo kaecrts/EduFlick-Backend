@@ -74,7 +74,7 @@ exports.getFlashCardsById = async (req, res) => {
         const flashCardName = result[0].flashCardName;
         const questions = result
             .filter(row => row.id)
-            .map(Q => ({ id: Q.id, question: Q.question, answer: Q.answer, type: Q.type, options: Q.options && Q.options.trim() !== "" ? JSON.parse(Q.options) : []}));
+            .map(Q => ({ id: Q.id, question: Q.question, answer: Q.answer, type: Q.type, options: Q.options }));
 
         res.status(200).json({
             status: "200",
