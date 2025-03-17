@@ -74,7 +74,7 @@ exports.getFlashCardsById = async (req, res) => {
         const flashCardName = result[0].flashCardName;
         const questions = result
             .filter(row => row.id)
-            .map(Q => ({ id: Q.id, question: Q.question, answer: Q.answer, type: Q.type, options: Q.options }));
+            .map(Q => ({ id: Q.id, question: Q.question, answer: Q.answer, type: Q.type, options: JSON.parse(Q.options) }));
 
         res.status(200).json({
             status: "200",
@@ -200,5 +200,34 @@ exports.postLeadersBoardByFlashcard = async (req, res) => {
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).json({ message: "Database error", error: err });
+    }
+};
+
+exports.deleteFlashCardsById = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id; // Assuming authentication middleware sets req.user
+
+    try {
+        // Check if the flashcard exists and belongs to the user
+        const flashCard = await queryAsync(`SELECT * FROM flash_cards WHERE id = ? AND user_id = ?`, [id, userId]);
+
+        if (flashCard.length === 0) {
+            return res.status(404).json({ message: "Flashcard not found or you don't have permission to delete it" });
+        }
+
+        // Delete associated cards first (to maintain referential integrity)
+        await queryAsync(`DELETE FROM cards WHERE flash_card_id = ?`, [id]);
+
+        // Delete from leaderboard (optional)
+        await queryAsync(`DELETE FROM leaders_board WHERE flash_card_id = ?`, [id]);
+
+        // Delete the flashcard itself
+        await queryAsync(`DELETE FROM flash_cards WHERE id = ?`, [id]);
+
+        res.status(200).json({ status: "200", message: "Flashcard deleted successfully" });
+
+    } catch (err) {
+        console.error("Error deleting flashcard:", err);
+        res.status(500).json({ message: "Error deleting flashcard", error: err });
     }
 };
