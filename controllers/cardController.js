@@ -3,13 +3,20 @@ const { v4: uuidv4 } = require("uuid");
 
 exports.getFlashCardsByUser = async (req, res) => {
     try {
-        const result = await queryAsync('SELECT * FROM flash_cards', []);
-        res.status(200).json({ status: '200', message: 'Retrieve FlashCards Successfully', data: result });
+        const userId = req.user.id;
+        const result = await queryAsync(`SELECT * FROM flash_cards WHERE user_id = ?`, [userId]);
+        
+        res.status(200).json({
+            status: '200',
+            message: 'Retrieve FlashCards Successfully',
+            data: result
+        });
     } catch (err) {
         console.error("[err]", err);
         res.status(500).json({ message: 'Error retrieving flashcards', error: err });
     }
 };
+
 
 exports.createFlashCardsByUser = async (req, res) => {
     const { id, name, questions } = req.body;
