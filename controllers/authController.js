@@ -26,7 +26,10 @@ exports.register = async (req, res) => {
         await queryAsync('INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)', 
             [id, name, email, hashedPassword]);
 
-        res.status(201).json({ status: 201, message: 'User registered successfully' });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        res.json({ status: 200, message: 'User registered successfull', token });
+        
 
     } catch (err) {
         console.error("Error registering user:", err);
