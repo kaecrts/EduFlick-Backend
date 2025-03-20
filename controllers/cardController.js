@@ -4,8 +4,14 @@ const { v4: uuidv4 } = require("uuid");
 exports.getFlashCardsByUser = async (req, res) => {
     try {
         const userId = req.user.id;
-        const result = await queryAsync(`SELECT * FROM flash_cards WHERE user_id = ?`, [userId]);
-        
+
+        const result = await queryAsync(`
+            SELECT DISTINCT fc.*
+            FROM flash_cards fc
+            LEFT JOIN leaders_board lb ON fc.id = lb.flash_card_id
+            WHERE fc.user_id = ? OR lb.user_id = ?
+        `, [userId, userId]);
+
         res.status(200).json({
             status: '200',
             message: 'Retrieve FlashCards Successfully',
