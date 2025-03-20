@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
         // Check if the email already exists
         const existingUser = await queryAsync('SELECT id FROM users WHERE email = ?', [email]);
         if (existingUser.length > 0) {
-            return res.status(400).json({ message: "Email is already registered" });
+            return res.status(200).json({ status: 400, message: "Email is already registered" });
         }
 
         const hashedPassword = bcrypt.hashSync(password, 10);
@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
         await queryAsync('INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)', 
             [id, name, email, hashedPassword]);
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({ status: 201, message: 'User registered successfully' });
 
     } catch (err) {
         console.error("Error registering user:", err);
@@ -45,14 +45,14 @@ exports.login = async (req, res) => {
         const results = await queryAsync('SELECT * FROM users WHERE email = ?', [email]);
 
         if (results.length === 0) {
-            return res.status(401).json({ status: 401, message: 'Invalid credentials' });
+            return res.status(200).json({ status: 401, message: 'Invalid credentials' });
         }
 
         const user = results[0];
         const isMatch = bcrypt.compareSync(password, user.password);
 
         if (!isMatch) {
-            return res.status(401).json({ status: 401, message: 'Invalid credentials' });
+            return res.status(200).json({ status: 401, message: 'Invalid credentials' });
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
